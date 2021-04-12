@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_USERS_ALLOW_SIGN_UP=true
+      - GF_INSTALL_PLUGINS=grafana-polystat-panel,grafana-piechart-panel,agenty-flowcharting-panel
+    ports:
+      - 3000:3000
+    networks:
+      - arnegy
+
+  prometheus0:
+    image: prom/prometheus:latest
+    container_name: prometheus0
+    user: root
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    networks:
+      - arnegy
+networks:
+  arnegy: {}
